@@ -1,0 +1,16 @@
+services:
+  warp10:
+    image: warp10io/warp10:${WARP10_VERSION}
+    container_name: warp10-bigdata
+    ports:
+      - "${WARP10_API_PORT}:8080"
+      - "${WARP10_WEB_PORT}:8081"
+    environment:
+      - WARP10_RT=${WARP10_RT}
+      - WARP10_WT=${WARP10_WT}
+    volumes:
+      - warp10_data:/data
+    restart: always
+
+volumes:
+  warp10_data:
