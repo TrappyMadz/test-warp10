@@ -40,6 +40,22 @@ docker exec -it warp10-bigdata /opt/warp10/bin/warp10.sh tokengen /opt/warp10/to
 
 Le retour de la commande contiendra les deux tokens, à renseigner dans le `.env`et dans chaque script warpstudio.
 
+## Lancement d'une partie
+
+Pour démarrer la simulation et l'ingestion des données en temps réel :
+
+- Assurez-vous que votre environnement Python est prêt et que les dépendances sont installées.
+
+- Lancez le script de simulation :
+
+```bash
+python ./simulation.py
+```
+
+### Récupération du match_id
+
+Dès le lancement du script, un identifiant unique appelé `match_id` est généré et affiché dans la console. Cet identifiant est crucial pour vos analyses : il doit être utilisé comme sélecteur dans vos scripts WarpScript pour isoler les données d'une session spécifique parmi l'ensemble des séries temporelles stockées.
+
 ## Analyse des Données (WarpScript)
 
 Le projet utilise trois flux d'analyse distincts dans WarpStudio :
