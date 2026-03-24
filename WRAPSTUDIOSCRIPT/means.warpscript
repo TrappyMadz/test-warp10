@@ -1,0 +1,44 @@
+CLEAR
+'READTOKENHERE' 'readToken' STORE
+'MATCHIDHERE' 'matchId' STORE
+
+<%
+  'target' STORE
+  [ $readToken $target { 'match_id' $matchId } NOW -5000 ] FETCH 'series_list' STORE
+
+  $series_list SIZE 0 >
+  <%
+    [] 'v_list' STORE
+    $series_list <%
+      VALUES 'points' STORE
+      $points <% 'val' STORE $v_list $val TODOUBLE + 'v_list' STORE %> FOREACH
+    %> FOREACH
+
+    $v_list SIZE 0 >
+    <%
+      $v_list LSORT 'sv' STORE
+      $sv SIZE 1 - 'm' STORE
+      
+      0.0 'total' STORE
+      $sv <% 'v' STORE $total $v + 'total' STORE %> FOREACH
+      $total $sv SIZE / 'avg' STORE
+
+      {
+        '1_Metric' $target
+        '2_Mean'   $avg
+        '3_Q1'     $sv $m 0.25 * ROUND TOLONG GET
+        '4_Median' $sv $m 0.50 * ROUND TOLONG GET
+        '5_Q3'     $sv $m 0.75 * ROUND TOLONG GET
+        '6_Perc99' $sv $m 0.99 * ROUND TOLONG GET
+      }
+    %>
+    <% { '1_Metric' $target 'Statut' 'Empty' } %> IFTE
+  %>
+  <% { '1_Metric' $target 'Statut' 'Absent' } %> IFTE
+%> 'STATS' STORE
+
+'dbd.generator.state' @STATS
+'dbd.exitdoor.state'  @STATS
+'dbd.hook.usage'      @STATS
+
+3 ->LIST

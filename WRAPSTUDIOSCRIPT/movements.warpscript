@@ -1,0 +1,18 @@
+'READTOKENHERE' 'readToken' STORE
+'MATCHIDHERE' 'matchId' STORE
+
+[ 
+  $readToken 
+  '~dbd\.(survivor|killer)\.position' 
+  { 'match_id' $matchId }             
+  NOW 
+  -5000
+] FETCH
+
+[ SWAP bucketizer.last 0 1000000 0 ] BUCKETIZE
+
+<% 
+  DROP 
+  DUP LABELS 'character' GET /
+  RENAME 
+%> LMAP

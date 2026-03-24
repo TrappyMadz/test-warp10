@@ -5,9 +5,6 @@ services:
     ports:
       - "${WARP10_API_PORT}:8080"
       - "${WARP10_WEB_PORT}:8081"
-    environment:
-      - WARP10_RT=${WARP10_RT}
-      - WARP10_WT=${WARP10_WT}
     volumes:
       - warp10_data:/data
     restart: always

@@ -1,0 +1,14 @@
+'READTOKENHERE' 'readToken' STORE
+'MATCHIDHERE' 'matchId' STORE
+
+[ 
+  $readToken 
+  '~dbd\.(generator|exitdoor)\.state' 
+  { 'match_id' $matchId } 
+  NOW 
+  -5000 
+] FETCH
+
+[ SWAP bucketizer.last 0 1000000 0 ] BUCKETIZE
+
+FLATTEN
